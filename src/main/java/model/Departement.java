@@ -18,7 +18,7 @@ public class Departement {
 private int id;
 @Column(name = "nom")
 private String nom;
-@OneToMany(mappedBy="departement")
+@OneToMany(mappedBy="department")
 List<Personne> personnes;
 public Departement() {
 	super();

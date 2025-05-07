@@ -1,9 +1,13 @@
 package dao;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import model.Departement;
 import model.Personne;
+import model.Projet;
 import util.HibernateUtil;
 
 public class PersonneDAO {
@@ -17,8 +21,15 @@ public class PersonneDAO {
 		session.close(); 
 		return p;
 	}
-	public boolean create(Personne p) {
+	public boolean create(Personne p,long deptId,long[] projetId) {
 		Session session=sessionFactory.openSession();
+		Departement d=session.get(Departement.class, deptId);
+		p.setDepartment(d);
+		List<Projet> listProjets=new ArrayList<Projet>();
+		for(long id:projetId) {
+			listProjets.add(session.get(Projet.class, id));
+		}
+		p.setProjets(listProjets);
 		Transaction tx=null;
 		boolean success = false;
 		try {
@@ -82,8 +93,25 @@ public class PersonneDAO {
 	public List<Personne> findAll(){
 		   Session session=sessionFactory.openSession();
 		   List<Personne> result = 
-		 		session.createQuery("from Personne", Personne.class).getResultList(); 
+		 		session.createQuery("from Personne as p left join fetch p.projets", Personne.class).getResultList(); 
 		   session.close(); 
+		   return result;
+		
+		}
+	public List<Personne> findByProject(long id){
+		   Session session=sessionFactory.openSession();
+		   List<Personne> result = 
+		 		session.createQuery("from Personne as p left join fetch p.projets pr where pr.id="+id, Personne.class).getResultList(); 
+		   session.close(); 
+		   return result;
+		
+		}
+	public List<Personne> getByProject(long id){
+		   Session session=sessionFactory.openSession();
+			Projet p=session.get(Projet.class, id);
+		   List<Personne> result = p.getPersonnes();
+		   System.out.print(result);
+		 		 session.close(); 
 		   return result;
 		
 		}

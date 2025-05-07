@@ -89,5 +89,13 @@ public class ProjetDAO {
 		   return result;
 		
 		}
+	public List<Object[]> findNb(){
+		   Session session=sessionFactory.openSession();
+		   List<Object[]> result = 
+		 		session.createQuery("select pr.nom, count(p) from Personne p left join p.projets pr group by pr.id order by count(p) desc").getResultList(); 
+		   session.close(); 
+		   return result;
+		
+		}
 		}
 
