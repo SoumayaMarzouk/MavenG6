@@ -50,7 +50,7 @@ public class PersonneController extends HttpServlet {
 			long id=Long.parseLong(request.getParameter("idUpdate"));
 			Personne p=pdao.findById(id);
 			request.setAttribute("personne",p);
-			RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneUpdate.jsp");
+			RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneUpdateJstl.jsp");
 			rd.forward(request, response); 
 			}else if(request.getParameter("formCreate")!=null) {
 				
@@ -58,7 +58,7 @@ public class PersonneController extends HttpServlet {
 				List<Departement> dept=deptDao.findAll();
 				request.setAttribute("projets",pr);
 				request.setAttribute("depts",dept);
-				RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneCreate.jsp");
+				RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneCreateJstl.jsp");
 				rd.forward(request, response); 
 				}
 		
@@ -66,7 +66,7 @@ public class PersonneController extends HttpServlet {
 		List<Personne> results = pdao.findAll();
 		request.setAttribute("listPersonne",results);
 		request.setAttribute("message",message);
-		RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneView.jsp");
+		RequestDispatcher rd=getServletContext().getRequestDispatcher("/personneViewJstl.jsp");
 		rd.forward(request, response); 
 		}
 
@@ -116,7 +116,7 @@ public class PersonneController extends HttpServlet {
 		}
 			request.setAttribute("listPersonne",results);
 			request.setAttribute("message",message);
-			RequestDispatcher rd=getServletContext().getRequestDispatcher("/PersonneView.jsp");
+			RequestDispatcher rd=getServletContext().getRequestDispatcher("/personneViewJstl.jsp");
 			rd.forward(request, response); 
 			}
 
